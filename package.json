@@ -1,0 +1,24 @@
+{
+  "name": "full-hons-wordle-clone",
+  "version": "0.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "devStart": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "express-ejs-layouts": "^2.5.1",
+    "mongoose": "^6.1.7"
+  },
+  "devDependencies": {
+    "dotenv": "^14.2.0",
+    "nodemon": "^2.0.15"
+  }
+}
