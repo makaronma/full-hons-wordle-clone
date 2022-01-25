@@ -6,7 +6,7 @@ require("dotenv").config();
 const API_KEY = process.env.API_KEY;
 let word;
 
-app.listen(async () => {
+app.listen(process.env.PORT || 3000, async () => {
   try {
     const result = await axios.get(
       `http://api.wordnik.com/v4/words.json/randomWord?api_key=${API_KEY}&&minLength=5&maxLength=5`
