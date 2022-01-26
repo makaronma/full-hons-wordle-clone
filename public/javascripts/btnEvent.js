@@ -2,6 +2,7 @@ const tiles = document.querySelectorAll(".tile");
 const insertedWords = [];
 let currentRow = 0;
 insertedWords[0] = [];
+let currentGuess;
 
 const keys = document.querySelectorAll("#keyboard button");
 keys.forEach((key) => {
@@ -11,11 +12,14 @@ keys.forEach((key) => {
 });
 
 function handleKeyboardClick(key) {
+  const currentPile = currentRow * 5 + insertedWords[currentRow].length;
+
   // Next Row
   if (key == "↵") {
-    if (currentRow >= 5) {
+    if (currentRow >= 5 || insertedWords[currentRow].length < 5) {
       return;
     }
+    checkGuess();
     currentRow++;
     insertedWords[currentRow] = [];
     return;
@@ -23,9 +27,8 @@ function handleKeyboardClick(key) {
 
   // Backspace
   if (key == "←") {
+    tiles[currentPile].textContent = "";
     insertedWords[currentRow].pop();
-    const index = currentRow * 5 + insertedWords[currentRow].length;
-    tiles[index].textContent = "";
     return;
   }
 
@@ -34,7 +37,18 @@ function handleKeyboardClick(key) {
 
   // Insert Word
   insertedWords[currentRow].push(key);
-  const index = currentRow * 5 + insertedWords[currentRow].length - 1;
-  tiles[index].textContent = key;
+  tiles[currentPile].textContent = key;
   console.log(insertedWords[currentRow]);
+}
+
+function checkGuess() {
+  currentGuess = insertedWords[currentRow].join("");
+  console.log("Guess: " + currentGuess);
+  $.ajax({
+    url: "/",
+    type: "POST",
+    data: { word: currentGuess },
+  }).done((data) => {
+    console.log(data);
+  });
 }
