@@ -14,9 +14,6 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const data = req.body;
   if (data.word != null) {
-    if (data.word == server.word) {
-      res.send("22222");
-    }
     checkGuess(req, res, data.word);
   }
 });
@@ -27,13 +24,16 @@ const checkGuess = async (req, res, guess) => {
     const result = await axios.get(
       `https://api.wordnik.com/v4/word.json/${guess}/definitions?limit=1&api_key=${API_KEY}`
     );
-    // console.log("[SERVER] Valid Result: ");
-    // console.log(result.data);
     const correctness = checkGuessByCharater(guess);
-    res.send(correctness); // 01202
+    res.send({
+      valid: true,
+      correctness: correctness,
+    }); // 01202
   } catch (error) {
     console.log(error);
-    res.send("Invalid!"); // prevent next row
+    res.send({
+      valid: false,
+    }); // prevent next row
   }
 };
 
