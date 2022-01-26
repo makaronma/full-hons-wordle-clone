@@ -5,6 +5,7 @@ const server = require("../server");
 
 const axios = require("axios");
 const API_KEY = process.env.API_KEY;
+const wordsList = require("../words");
 
 router.get("/", async (req, res) => {
   res.render("index", { word: server.word });
@@ -20,27 +21,28 @@ router.post("/", async (req, res) => {
 
 const checkGuess = async (req, res, guess) => {
   console.log(`Checking ${guess} Valid. . .`);
-  try {
-    const result = await axios.get(
-      `https://api.wordnik.com/v4/word.json/${guess}/definitions?limit=1&api_key=${API_KEY}`
-    );
+  if(wordsList.commonWords.some(word => word === guess)) {
+    // const result = await axios.get(
+    //   `https://api.wordnik.com/v4/word.json/${guess}/definitions?limit=1&api_key=${API_KEY}`
+    // );
     const correctness = checkGuessByCharater(guess);
-    res.send({
-      valid: true,
-      correctness: correctness,
-    }); // 01202
-  } catch (error) {
-    console.log(error);
-    res.send({
-      valid: false,
-    }); // prevent next row
-  }
+      res.send({
+        valid: true,
+        correctness: correctness,
+      }); // 01202
+    } else {
+      // console.log(error);
+      res.send({
+        valid: false,
+      }); // prevent next row
+    }
 };
 
 const checkGuessByCharater = (guess) => {
   const AnsChar = server.word.split(""); //apple
   const GuessChar = guess.split(""); //pupil
   let result = [];
+  let win = true;
   for (let i = 0; i < guess.length; i++) {
     //check position correct
     if (AnsChar[i] == GuessChar[i]) {
@@ -49,10 +51,13 @@ const checkGuessByCharater = (guess) => {
     //check exist
     else if (server.word.includes(GuessChar[i])) {
       result[i] = 1;
+      win = false;
     } else {
       result[i] = 0;
+      win = false;
     }
   }
+    if(win) server.getRandomWord()
   return result;
 };
 
