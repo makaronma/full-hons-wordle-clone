@@ -6,6 +6,9 @@ if (app.get("env") !== "production") {
 const expressLayouts = require("express-ejs-layouts");
 const indexRouter = require("./routes/index");
 const randomWords = require('random-words');
+const fs = require('fs');
+const wordListPath = require('word-list');
+const wordArray = fs.readFileSync(wordListPath, 'utf8').split('\n');
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -13,7 +16,8 @@ app.set("layout", "layouts/layout");
 app.use(expressLayouts);
 app.use(express.static("public"));
 app.use(express.urlencoded());
-const wordsList = require("./words");
+// const wordsList = require("./words");
+
 
 app.use("/", indexRouter);
 
@@ -39,7 +43,8 @@ const getRandomWord = async () => {
   // } catch (error) {
   //   console.log("[SERVER] Get Random Word Error: " + error);
   // }
-  list = wordsList.commonWords.filter(word => word.length == 5);
+
+  list = wordArray.filter(word => word.length == 5);
   word = list[Math.floor(Math.random() * list.length)];
   exports.word = word;
 };

@@ -5,7 +5,9 @@ const server = require("../server");
 
 const axios = require("axios");
 const API_KEY = process.env.API_KEY;
-const wordsList = require("../words");
+const fs = require('fs');
+const wordListPath = require('word-list');
+const wordArray = fs.readFileSync(wordListPath, 'utf8').split('\n');
 
 router.get("/", async (req, res) => {
   res.render("index", { word: server.word });
@@ -21,7 +23,7 @@ router.post("/", async (req, res) => {
 
 const checkGuess = async (req, res, guess) => {
   console.log(`Checking ${guess} Valid. . .`);
-  if(wordsList.commonWords.some(word => word === guess)) {
+  if(wordArray.some(word => word === guess)) {
     // const result = await axios.get(
     //   `https://api.wordnik.com/v4/word.json/${guess}/definitions?limit=1&api_key=${API_KEY}`
     // );
