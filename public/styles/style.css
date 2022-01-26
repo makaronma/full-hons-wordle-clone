@@ -34,6 +34,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 #head .title {
   text-align: center;
@@ -47,7 +48,8 @@
   box-sizing: border-box;
   max-width: calc(var(--game-max-width) - 150px);
   height: 350px;
-  margin: 0 110px;
+  /* margin: 0 110px; */
+  min-width: 310px;
 }
 #panel .row {
   display: grid;
@@ -104,7 +106,7 @@
   margin-bottom: 20px;
   border-radius: 5px;
 
-  opacity: 1;
+  opacity: 0.6;
   transition: opacity 1s;
 }
 
