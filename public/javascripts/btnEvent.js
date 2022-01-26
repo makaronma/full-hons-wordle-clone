@@ -19,7 +19,11 @@ function handleKeyboardClick(key) {
 
   // Next Row
   if (key == "↵") {
-    if (currentRow >= maxRow || insertedWords[currentRow].length < 5) {
+    if (currentRow >= maxRow) {
+      return;
+    }
+    if (insertedWords[currentRow].length < 5) {
+      displayMessage("Not enough letters");
       return;
     }
     checkGuess();
@@ -76,7 +80,7 @@ function checkGuess() {
 
 function setColor(data) {
   for (let i = 0; i < 5; i++) {
-    const pileIndex = (currentRow) * 5 + i;
+    const pileIndex = currentRow * 5 + i;
     const key = document.querySelector(
       `[data-key=${insertedWords[currentRow][i]}]`
     );
