@@ -7,6 +7,7 @@ let waiting = false;
 const maxRow = 6;
 
 const keys = document.querySelectorAll("key");
+const rows = document.querySelectorAll("#panel .row");
 keys.forEach((key) => {
   key.addEventListener("click", () =>
     handleKeyboardClick(key.getAttribute("data-key"))
@@ -24,6 +25,10 @@ function handleKeyboardClick(key) {
     }
     if (insertedWords[currentRow].length < 5) {
       displayMessage("Not enough letters");
+      rows[currentRow].classList.add("shake");
+      setTimeout(() => {
+        rows[currentRow].classList.remove("shake");
+      }, 600);
       return;
     }
     checkGuess();
@@ -34,6 +39,7 @@ function handleKeyboardClick(key) {
   if (key == "←") {
     if (insertedWords[currentRow] <= 0) return;
     tiles[currentPile - 1].textContent = "";
+    tiles[currentPile - 1].dataset.state = "empty";
     insertedWords[currentRow].pop();
     return;
   }
@@ -44,6 +50,7 @@ function handleKeyboardClick(key) {
   // Insert Word
   insertedWords[currentRow].push(key);
   tiles[currentPile].textContent = key;
+  tiles[currentPile].dataset.state = "tbd";
   console.log(insertedWords[currentRow]);
 }
 
@@ -70,6 +77,10 @@ function checkGuess() {
     } else {
       console.log("invalid");
       displayMessage("Not in word list");
+      rows[currentRow].classList.add("shake");
+      setTimeout(() => {
+        rows[currentRow].classList.remove("shake");
+      }, 600);
     }
 
     // Enable Keyboard

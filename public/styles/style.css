@@ -46,14 +46,20 @@
   padding: 10px;
   box-sizing: border-box;
   max-width: calc(var(--game-max-width) - 150px);
-  height: 420px;
-  margin: 0 75px;
+  height: 350px;
+  margin: 0 110px;
 }
 #panel .row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 5px;
 }
+
+#panel .row.shake{
+  animation-name: horizontalShake;
+  animation-duration: 600ms;
+}
+
 .tile {
   font-family: inherit;
   display: inline-flex;
@@ -62,6 +68,10 @@
   align-items: center;
   text-transform: uppercase;
   font-weight: bold;
+}
+
+[data-state="tbd"] {
+  border: var(--gray) 2px solid;
 }
 [data-state="notExist"] {
   background-color: var(--color-notexist);
@@ -157,6 +167,12 @@ key {
   100% {
     transform: rotate(360deg);
   }
+}
+
+@keyframes horizontalShake {
+  12%, 30%, 48%, 65%, 83% { transform: translateX(5px) }
+  15%, 33%, 51%, 68%, 86% { transform: translateX(3px) }
+  18%, 36%, 54%, 71%, 89% { transform: translateX(-5px) }
 }
 
 @media (max-height: 600px) {
