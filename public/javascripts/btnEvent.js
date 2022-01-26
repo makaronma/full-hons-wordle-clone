@@ -6,7 +6,7 @@ let currentGuess;
 let waiting = false;
 const maxRow = 6;
 
-const keys = document.querySelectorAll("#keyboard button");
+const keys = document.querySelectorAll("key");
 keys.forEach((key) => {
   key.addEventListener("click", () =>
     handleKeyboardClick(key.getAttribute("data-key"))
