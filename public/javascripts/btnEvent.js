@@ -3,6 +3,7 @@ const insertedWords = [];
 let currentRow = 0;
 insertedWords[0] = [];
 let currentGuess;
+let waiting = false;
 
 const keys = document.querySelectorAll("#keyboard button");
 keys.forEach((key) => {
@@ -12,6 +13,7 @@ keys.forEach((key) => {
 });
 
 function handleKeyboardClick(key) {
+  if (waiting) return;
   const currentPile = currentRow * 5 + insertedWords[currentRow].length;
 
   // Next Row
@@ -27,7 +29,7 @@ function handleKeyboardClick(key) {
 
   // Backspace
   if (key == "←") {
-    tiles[currentPile].textContent = "";
+    tiles[currentPile - 1].textContent = "";
     insertedWords[currentRow].pop();
     return;
   }
@@ -42,6 +44,7 @@ function handleKeyboardClick(key) {
 }
 
 function checkGuess() {
+  waiting = true;
   currentGuess = insertedWords[currentRow].join("");
   console.log("Guess: " + currentGuess);
   $.ajax({
@@ -50,5 +53,26 @@ function checkGuess() {
     data: { word: currentGuess },
   }).done((data) => {
     console.log(data);
+    waiting = false;
+    setPilesColor(data);
   });
+}
+
+function setPilesColor(data) {
+  for (let i = 0; i < 5; i++) {
+    const pileIndex = (currentRow - 1) * 5 + i;
+    switch (data[i]) {
+      case 0:
+        tiles[pileIndex].classList.add("notExist");
+        break;
+      case 1:
+        tiles[pileIndex].classList.add("exist");
+        break;
+      case 2:
+        tiles[pileIndex].classList.add("correct");
+        break;
+      default:
+        break;
+    }
+  }
 }

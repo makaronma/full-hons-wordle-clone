@@ -15,24 +15,45 @@ router.post("/", async (req, res) => {
   const data = req.body;
   if (data.word != null) {
     if (data.word == server.word) {
-      res.send("Correct!");
+      res.send("22222");
     }
-    checkWordValid(req, res, data.word);
+    checkGuess(req, res, data.word);
   }
 });
 
-const checkWordValid = async (req, res, word) => {
-  console.log(`Checking ${word} Valid. . .`);
+const checkGuess = async (req, res, guess) => {
+  console.log(`Checking ${guess} Valid. . .`);
   try {
     const result = await axios.get(
-      `https://api.wordnik.com/v4/word.json/${word}/definitions?limit=1&api_key=${API_KEY}`
+      `https://api.wordnik.com/v4/word.json/${guess}/definitions?limit=1&api_key=${API_KEY}`
     );
-    console.log("[SERVER] Valid Result: ");
-    console.log(result.data);
-    res.send("Valid!");
+    // console.log("[SERVER] Valid Result: ");
+    // console.log(result.data);
+    const correctness = checkGuessByCharater(guess);
+    res.send(correctness); // 01202
   } catch (error) {
-    res.send("Invalid!");
+    console.log(error);
+    res.send("Invalid!"); // prevent next row
   }
+};
+
+const checkGuessByCharater = (guess) => {
+  const AnsChar = server.word.split(""); //apple
+  const GuessChar = guess.split(""); //pupil
+  let result = [];
+  for (let i = 0; i < guess.length; i++) {
+    //check position correct
+    if (AnsChar[i] == GuessChar[i]) {
+      result[i] = 2;
+    }
+    //check exist
+    else if (server.word.includes(GuessChar[i])) {
+      result[i] = 1;
+    } else {
+      result[i] = 0;
+    }
+  }
+  return result;
 };
 
 module.exports = router;

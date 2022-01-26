@@ -52,6 +52,15 @@
   align-items: center;
   text-transform: uppercase;
 }
+.tile.notExist {
+  background-color: var(--gray);
+}
+.tile.exist {
+  background-color: var(--yellow);
+}
+.tile.correct {
+  background-color: var(--green);
+}
 
 #keyboard {
   width: 100%;
