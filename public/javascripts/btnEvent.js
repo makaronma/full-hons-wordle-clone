@@ -76,9 +76,9 @@ function checkGuess() {
 
 function setColor(data) {
   for (let i = 0; i < 5; i++) {
-    const pileIndex = (currentRow - 1) * 5 + i;
+    const pileIndex = (currentRow) * 5 + i;
     const key = document.querySelector(
-      `[data-key=${insertedWords[currentRow - 1][i]}]`
+      `[data-key=${insertedWords[currentRow][i]}]`
     );
     switch (data[i]) {
       case 0:
