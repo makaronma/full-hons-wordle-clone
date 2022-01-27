@@ -6,6 +6,9 @@ let currentGuess;
 let waiting = false;
 const maxRow = 6;
 
+let previousWord = localStorage.getItem("previousWord");
+if (previousWord) $document.querySelector("title").textContent = previousWord;
+
 const keys = document.querySelectorAll("key");
 const rows = document.querySelectorAll("#panel .row");
 keys.forEach((key) => {
@@ -104,8 +107,13 @@ function checkGuess() {
     }
     if (localStorage.getItem("word") !== data.hash) {
       localStorage.setItem("word", data.hash);
-      displayMessage(`Someone's guess is correct: ${data.previousWord}.Reset soon`);
-      setTimeout(window.location.reload.bind(window.location), 3000);
+      displayMessage(
+        `Someone's guess is correct: ${data.previousWord}.Reset soon`
+      );
+      setTimeout(
+        window.location.reload.bind(window.location),
+        3000 + 800 + 1600
+      );
     }
 
     // Enable Keyboard
