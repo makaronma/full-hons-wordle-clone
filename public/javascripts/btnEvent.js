@@ -104,7 +104,7 @@ function checkGuess() {
     }
     if (localStorage.getItem("word") !== data.hash) {
       localStorage.setItem("word", data.hash);
-      displayMessage("Someone's guess is correct.Reset soon");
+      displayMessage(`Someone's guess is correct: ${data.previousWord}.Reset soon`);
       setTimeout(window.location.reload.bind(window.location), 3000);
     }
 

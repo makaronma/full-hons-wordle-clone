@@ -11,6 +11,7 @@ const wordListPath = require("word-list");
 const wordArray = fs.readFileSync(wordListPath, "utf8").split("\n");
 
 let hash = null;
+let previousWord = null;
 
 router.get("/", async (req, res) => {
   hash = md5(server.word);
@@ -36,12 +37,14 @@ const checkGuess = async (req, res, guess) => {
       valid: true,
       correctness: correctness,
       hash: hash,
+      previousWord: previousWord,
     }); // 01202
   } else {
     // console.log(error);
     res.send({
       valid: false,
       hash: hash,
+      previousWord: previousWord,
     }); // prevent next row
   }
 };
@@ -66,6 +69,7 @@ const checkGuessByCharater = (guess) => {
     }
   }
   if (win) {
+    previousWord = server.word;
     server.getRandomWord();
     hash = md5(server.word);
   }
