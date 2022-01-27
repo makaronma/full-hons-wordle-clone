@@ -57,7 +57,7 @@
   grid-gap: 5px;
 }
 
-#panel .row.shake{
+#panel .row.shake {
   animation-name: horizontalShake;
   animation-duration: 600ms;
 }
@@ -72,8 +72,26 @@
   font-weight: bold;
 }
 
-[data-state="tbd"] {
+.fliping {
+  animation: flip 0.5s linear;
+}
+.fliping:nth-child(2) {
+  animation-delay: 400ms;
+}
+.fliping:nth-child(3) {
+  animation-delay: 800ms;
+}
+.fliping:nth-child(4) {
+  animation-delay: 1200ms;
+}
+.fliping:nth-child(5) {
+  animation-delay: 1600ms;
+}
+
+[data-state="tbd"]:not(.fliping) {
   border: var(--gray) 2px solid;
+  animation-duration: 100ms;
+  animation-name: pop;
 }
 [data-state="notExist"] {
   background-color: var(--color-notexist);
@@ -172,9 +190,55 @@ key {
 }
 
 @keyframes horizontalShake {
-  12%, 30%, 48%, 65%, 83% { transform: translateX(5px) }
-  15%, 33%, 51%, 68%, 86% { transform: translateX(3px) }
-  18%, 36%, 54%, 71%, 89% { transform: translateX(-5px) }
+  12%,
+  30%,
+  48%,
+  65%,
+  83% {
+    transform: translateX(5px);
+  }
+  15%,
+  33%,
+  51%,
+  68%,
+  86% {
+    transform: translateX(3px);
+  }
+  18%,
+  36%,
+  54%,
+  71%,
+  89% {
+    transform: translateX(-5px);
+  }
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateX(0deg);
+  }
+  49.99% {
+    transform: rotateX(90deg);
+  }
+  50% {
+    transform: rotateX(270deg);
+    animation-timing-function: (1, step-end);
+  }
+  100% {
+    transform: rotateX(360deg);
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @media (max-height: 600px) {

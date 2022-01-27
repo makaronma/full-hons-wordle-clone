@@ -90,32 +90,31 @@ function checkGuess() {
 }
 
 function setColor(data) {
+  const numToState = {
+    0: "notExist",
+    1: "exist",
+    2: "correct",
+  };
+
   for (let i = 0; i < 5; i++) {
     const pileIndex = currentRow * 5 + i;
     const key = document.querySelector(
       `[data-key=${insertedWords[currentRow][i]}]`
     );
-    switch (data[i]) {
-      case 0:
-        tiles[pileIndex].dataset.state = "notExist";
-        if (key.dataset.state != "correct" && key.dataset.state != "exist") {
-          key.dataset.state = "notExist";
-        }
-        break;
-      case 1:
-        tiles[pileIndex].dataset.state = "exist";
-        if (key.dataset.state != "correct") {
-          key.dataset.state = "exist";
-        }
-        break;
-      case 2:
-        tiles[pileIndex].dataset.state = "correct";
-        key.dataset.state = "correct";
-        break;
-      default:
-        break;
+
+    flipTile(numToState[data[i]], i);
+    if (key.dataset.state != "correct" && key.dataset.state != "exist") {
+      key.dataset.state = numToState[data[i]];
     }
   }
+}
+
+function flipTile(state, i) {
+  const pileIndex = currentRow * 5 + i;
+  tiles[pileIndex].classList.add("fliping");
+  setTimeout(() => {
+    tiles[pileIndex].dataset.state = state;
+  }, 250 + i * 400);
 }
 
 function displayMessage(msg) {
