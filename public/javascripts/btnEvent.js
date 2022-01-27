@@ -7,7 +7,7 @@ let waiting = false;
 const maxRow = 6;
 
 let previousWord = localStorage.getItem("previousWord");
-if (previousWord) document.querySelector(".title").textContent = previousWord;
+if (previousWord && previousWord !== "null") document.querySelector(".title").textContent = previousWord;
 
 const keys = document.querySelectorAll("key");
 const rows = document.querySelectorAll("#panel .row");
@@ -113,7 +113,7 @@ function checkGuess() {
       );
       setTimeout(
         window.location.reload.bind(window.location),
-        3000 + 800 + 1600
+        4000
       );
     }
 
