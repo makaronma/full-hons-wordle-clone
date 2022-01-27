@@ -48,7 +48,6 @@
   box-sizing: border-box;
   max-width: calc(var(--game-max-width) - 150px);
   height: 350px;
-  /* margin: 0 110px; */
   min-width: 310px;
 }
 #panel .row {
@@ -181,46 +180,6 @@ key {
 }
 #loader[data-loading="true"] {
   display: block;
-}
-
-#ansPopup {
-  position: relative;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-#ansPopup .popupTxt {
-  display: none;
-  position: absolute;
-  left: 50%;
-  bottom:150%;
-  transform: translateX(-50%);
-
-  /* width: 160px; */
-  padding: 8px 10px;
-  background-color: #555;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-}
-
-#ansPopup .popupTxt.show {
-  display: block;
-}
-
-/* Popup arrow */
-.popupTxt::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #555 transparent transparent transparent;
 }
 
 @keyframes spin {

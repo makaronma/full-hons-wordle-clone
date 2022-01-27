@@ -33,18 +33,18 @@ const checkGuess = async (req, res, guess) => {
     res.send({
       valid: true,
       correctness: correctness,
-    }); // 01202
+    });
   } catch (error) {
     console.log("Search Word Error");
     res.send({
       valid: false,
-    }); // prevent next row
+    });
   }
 };
 
 const checkGuessByCharater = (guess) => {
-  const AnsChar = server.word.split(""); //apple
-  const GuessChar = guess.split(""); //pupil
+  const AnsChar = server.word.split("");
+  const GuessChar = guess.split("");
   let result = [];
   for (let i = 0; i < guess.length; i++) {
     //check position correct
