@@ -30,7 +30,7 @@ const checkGuess = async (req, res, guess) => {
       correctness: correctness,
     }); // 01202
   } catch (error) {
-    console.log(error);
+    console.log("Search Word Error");
     res.send({
       valid: false,
     }); // prevent next row
