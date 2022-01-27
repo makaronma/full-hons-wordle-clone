@@ -41,6 +41,7 @@ const checkGuess = async (req, res, guess) => {
     // console.log(error);
     res.send({
       valid: false,
+      hash: hash,
     }); // prevent next row
   }
 };
