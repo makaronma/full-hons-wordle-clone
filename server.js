@@ -32,10 +32,24 @@ const getRandomWord = async () => {
       getRandomWord();
     } else {
       console.log("[SERVER] Initialize Word: " + word);
+      getWordDef(word);
       exports.word = word;
     }
   } catch (error) {
     console.log("[SERVER] Get Random Word Error: " + error);
+  }
+};
+
+const getWordDef = async (word) => {
+  try {
+    const result = await axios.get(
+      `https://api.wordnik.com/v4/word.json/${word}/definitions?limit=1&api_key=${API_KEY}`
+    );
+    const wordDef = result.data;
+    console.log(wordDef[0]);
+    exports.wordDef = wordDef[0];
+  } catch (error) {
+    console.log(error);
   }
 };
 

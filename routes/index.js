@@ -7,7 +7,7 @@ const axios = require("axios");
 const API_KEY = process.env.API_KEY;
 
 router.get("/", async (req, res) => {
-  res.render("index", { word: server.word });
+  res.render("index", { word: server.word, wordDef: server.wordDef });
   console.log("[CLIENT] Get Word: " + server.word);
 });
 

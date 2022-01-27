@@ -13,6 +13,7 @@ keys.forEach((key) => {
     handleKeyboardClick(key.getAttribute("data-key"))
   );
 });
+handleAnsDisplay();
 
 function handleKeyboardClick(key) {
   if (waiting) return;
@@ -135,4 +136,12 @@ function displayMessage(msg) {
 function displayLoading(isLoading) {
   const loader = document.getElementById("loader");
   loader.dataset.loading = isLoading;
+}
+
+function handleAnsDisplay() {
+  const ansPopup = document.getElementById("ansPopup");
+  const ansText = document.querySelector("#ansPopup .popupTxt");
+  ansPopup.addEventListener("click", () => {
+    ansText.classList.toggle("show");
+  });
 }
