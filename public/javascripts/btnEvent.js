@@ -7,7 +7,7 @@ let waiting = false;
 const maxRow = 6;
 
 let previousWord = localStorage.getItem("previousWord");
-if (previousWord) $document.querySelector("title").textContent = previousWord;
+if (previousWord) $document.querySelector(".title").textContent = previousWord;
 
 const keys = document.querySelectorAll("key");
 const rows = document.querySelectorAll("#panel .row");
