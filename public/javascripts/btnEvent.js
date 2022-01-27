@@ -13,6 +13,20 @@ keys.forEach((key) => {
     handleKeyboardClick(key.getAttribute("data-key"))
   );
 });
+const acceptCode = Array.from(keys).map(e => e.getAttribute("data-key")).join("");
+
+window.addEventListener("keydown", (event) => {
+  let eventKey = event.key;
+  if (eventKey == "Backspace") {
+    eventKey = "←";
+  }
+  if (eventKey == "Enter") {
+    eventKey = "↵";
+  }
+  if (acceptCode.includes(eventKey.toLowerCase())) {
+    handleKeyboardClick(eventKey.toLowerCase())
+  }
+});
 
 function handleKeyboardClick(key) {
   if (waiting) return;
