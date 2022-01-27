@@ -107,6 +107,7 @@ function checkGuess() {
     }
     if (localStorage.getItem("word") !== data.hash) {
       localStorage.setItem("word", data.hash);
+      localStorage.setItem("previousWord", data.previousWord);
       displayMessage(
         `Someone's guess is correct: ${data.previousWord}.Reset soon`
       );
