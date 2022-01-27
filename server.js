@@ -46,7 +46,7 @@ const getWordDef = async (word) => {
       `https://api.wordnik.com/v4/word.json/${word}/definitions?limit=1&api_key=${API_KEY}`
     );
     const wordDef = result.data;
-    console.log(wordDef[0]);
+    // console.log(wordDef[0]);
     exports.wordDef = wordDef[0];
   } catch (error) {
     console.log(error);

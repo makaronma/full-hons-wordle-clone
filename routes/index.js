@@ -18,6 +18,11 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.get("/ans", async (req, res) => {
+  console.log(`[Client] See The Answer`);
+  res.send(server.word);
+});
+
 const checkGuess = async (req, res, guess) => {
   console.log(`Checking ${guess} Valid. . .`);
   try {
