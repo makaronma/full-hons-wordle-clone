@@ -13,7 +13,6 @@ keys.forEach((key) => {
     handleKeyboardClick(key.getAttribute("data-key"))
   );
 });
-handleAnsDisplay();
 
 function handleKeyboardClick(key) {
   if (waiting) return;
@@ -82,10 +81,9 @@ function checkGuess() {
       setTimeout(() => {
         rows[currentRow].classList.remove("shake");
       }, 600);
+      waiting = false;
     }
 
-    // Enable Keyboard
-    waiting = false;
     displayLoading(false);
   });
 }
@@ -96,6 +94,9 @@ function setColor(data) {
     1: "exist",
     2: "correct",
   };
+  setTimeout(() => {
+    waiting = false;
+  }, 2250);
 
   for (let i = 0; i < 5; i++) {
     const pileIndex = currentRow * 5 + i;
@@ -136,12 +137,4 @@ function displayMessage(msg) {
 function displayLoading(isLoading) {
   const loader = document.getElementById("loader");
   loader.dataset.loading = isLoading;
-}
-
-function handleAnsDisplay() {
-  const ansPopup = document.getElementById("ansPopup");
-  const ansText = document.querySelector("#ansPopup .popupTxt");
-  ansPopup.addEventListener("click", () => {
-    ansText.classList.toggle("show");
-  });
 }
