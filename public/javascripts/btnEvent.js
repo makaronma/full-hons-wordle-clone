@@ -13,7 +13,9 @@ keys.forEach((key) => {
     handleKeyboardClick(key.getAttribute("data-key"))
   );
 });
-const acceptCode = Array.from(keys).map(e => e.getAttribute("data-key")).join("");
+const acceptCode = Array.from(keys)
+  .map((e) => e.getAttribute("data-key"))
+  .join("");
 
 window.addEventListener("keydown", (event) => {
   let eventKey = event.key;
@@ -24,7 +26,7 @@ window.addEventListener("keydown", (event) => {
     eventKey = "↵";
   }
   if (acceptCode.includes(eventKey.toLowerCase())) {
-    handleKeyboardClick(eventKey.toLowerCase())
+    handleKeyboardClick(eventKey.toLowerCase());
   }
 });
 
@@ -95,6 +97,15 @@ function checkGuess() {
       setTimeout(() => {
         rows[currentRow].classList.remove("shake");
       }, 600);
+    }
+
+    if (!localStorage.getItem("word")) {
+      localStorage.setItem("word", data.hash);
+    }
+    if (localStorage.getItem("word") !== data.hash) {
+      localStorage.setItem("word", data.hash);
+      displayMessage("Someone's guess is correct.Reset soon");
+      setTimeout(window.location.reload.bind(window.location), 3000);
     }
 
     // Enable Keyboard

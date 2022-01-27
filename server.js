@@ -5,7 +5,6 @@ if (app.get("env") !== "production") {
 }
 const expressLayouts = require("express-ejs-layouts");
 const indexRouter = require("./routes/index");
-const randomWords = require('random-words');
 const fs = require('fs');
 const wordListPath = require('word-list');
 const wordArray = fs.readFileSync(wordListPath, 'utf8').split('\n');
