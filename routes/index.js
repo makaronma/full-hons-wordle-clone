@@ -2,12 +2,20 @@ const express = require("express");
 const app = express();
 const router = express.Router();
 const server = require("../server");
+const md5 = require("md5");
 
 const axios = require("axios");
 const API_KEY = process.env.API_KEY;
+const fs = require("fs");
+const wordListPath = require("word-list");
+const wordArray = fs.readFileSync(wordListPath, "utf8").split("\n");
+
+let hash = null;
+let previousWord = null;
 
 router.get("/", async (req, res) => {
-  res.render("index", { word: server.word, wordDef: server.wordDef });
+  hash = md5(server.word);
+  res.render("index", { word: server.word });
   console.log("[CLIENT] Get Word: " + server.word);
 });
 
@@ -25,20 +33,24 @@ router.get("/ans", async (req, res) => {
 
 const checkGuess = async (req, res, guess) => {
   console.log(`Checking ${guess} Valid. . .`);
-  try {
-    const result = await axios.get(
-      `https://api.wordnik.com/v4/word.json/${guess}/definitions?limit=1&api_key=${API_KEY}`
-    );
+  if (wordArray.some((word) => word === guess)) {
+    // const result = await axios.get(
+    //   `https://api.wordnik.com/v4/word.json/${guess}/definitions?limit=1&api_key=${API_KEY}`
+    // );
     const correctness = checkGuessByCharater(guess);
     res.send({
       valid: true,
       correctness: correctness,
-    });
-  } catch (error) {
-    console.log("Search Word Error");
+      hash: hash,
+      previousWord: previousWord,
+    }); // 01202
+  } else {
+    // console.log(error);
     res.send({
       valid: false,
-    });
+      hash: hash,
+      previousWord: previousWord,
+    }); // prevent next row
   }
 };
 
@@ -46,6 +58,7 @@ const checkGuessByCharater = (guess) => {
   const AnsChar = server.word.split("");
   const GuessChar = guess.split("");
   let result = [];
+  let win = true;
   for (let i = 0; i < guess.length; i++) {
     //check position correct
     if (AnsChar[i] == GuessChar[i]) {
@@ -54,9 +67,16 @@ const checkGuessByCharater = (guess) => {
     //check exist
     else if (server.word.includes(GuessChar[i])) {
       result[i] = 1;
+      win = false;
     } else {
       result[i] = 0;
+      win = false;
     }
+  }
+  if (win) {
+    previousWord = server.word;
+    server.getRandomWord();
+    hash = md5(server.word);
   }
   return result;
 };

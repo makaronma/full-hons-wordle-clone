@@ -6,12 +6,31 @@ let currentGuess;
 let waiting = false;
 const maxRow = 6;
 
+let previousWord = localStorage.getItem("previousWord");
+if (previousWord && previousWord !== "null") document.querySelector(".title").textContent = previousWord;
+
 const keys = document.querySelectorAll("key");
 const rows = document.querySelectorAll("#panel .row");
 keys.forEach((key) => {
   key.addEventListener("click", () =>
     handleKeyboardClick(key.getAttribute("data-key"))
   );
+});
+const acceptCode = Array.from(keys)
+  .map((e) => e.getAttribute("data-key"))
+  .join("");
+
+window.addEventListener("keydown", (event) => {
+  let eventKey = event.key;
+  if (eventKey == "Backspace") {
+    eventKey = "←";
+  }
+  if (eventKey == "Enter") {
+    eventKey = "↵";
+  }
+  if (acceptCode.includes(eventKey.toLowerCase())) {
+    handleKeyboardClick(eventKey.toLowerCase());
+  }
 });
 
 function handleKeyboardClick(key) {
@@ -81,42 +100,57 @@ function checkGuess() {
       setTimeout(() => {
         rows[currentRow].classList.remove("shake");
       }, 600);
-      waiting = false;
     }
 
+    if (!localStorage.getItem("word")) {
+      localStorage.setItem("word", data.hash);
+    }
+    if (localStorage.getItem("word") !== data.hash) {
+      localStorage.setItem("word", data.hash);
+      localStorage.setItem("previousWord", data.previousWord);
+      displayMessage(
+        `Someone's guess is correct: ${data.previousWord}.Reset soon`
+      );
+      setTimeout(
+        window.location.reload.bind(window.location),
+        4000
+      );
+    }
+
+    // Enable Keyboard
+    waiting = false;
     displayLoading(false);
   });
 }
 
-function setColor(data) {
-  const numToState = {
-    0: "notExist",
-    1: "exist",
-    2: "correct",
-  };
-  setTimeout(() => {
-    waiting = false;
-  }, 2250);
 
+function setColor(data) {
   for (let i = 0; i < 5; i++) {
     const pileIndex = currentRow * 5 + i;
     const key = document.querySelector(
       `[data-key=${insertedWords[currentRow][i]}]`
     );
-
-    flipTile(numToState[data[i]], i);
-    if (key.dataset.state != "correct" && key.dataset.state != "exist") {
-      key.dataset.state = numToState[data[i]];
+    switch (data[i]) {
+      case 0:
+        tiles[pileIndex].dataset.state = "notExist";
+        if (key.dataset.state != "correct" && key.dataset.state != "exist") {
+          key.dataset.state = "notExist";
+        }
+        break;
+      case 1:
+        tiles[pileIndex].dataset.state = "exist";
+        if (key.dataset.state != "correct") {
+          key.dataset.state = "exist";
+        }
+        break;
+      case 2:
+        tiles[pileIndex].dataset.state = "correct";
+        key.dataset.state = "correct";
+        break;
+      default:
+        break;
     }
   }
-}
-
-function flipTile(state, i) {
-  const pileIndex = currentRow * 5 + i;
-  tiles[pileIndex].classList.add("fliping");
-  setTimeout(() => {
-    tiles[pileIndex].dataset.state = state;
-  }, 250 + i * 400);
 }
 
 function displayMessage(msg) {
